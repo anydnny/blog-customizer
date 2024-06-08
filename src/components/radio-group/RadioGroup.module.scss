@@ -40,6 +40,11 @@
 
 .label:hover,
 .item[data-checked='true'] .label:hover {
+	background: var(--gold, #ffedab);
+}
+
+.label:active,
+.item[data-checked='true'] .label:active {
 	background: var(--gold, #ffc802);
 }
 
