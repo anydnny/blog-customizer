@@ -26,11 +26,11 @@ type Test = {
 	setFormState: React.Dispatch<SetStateAction<ArticleStateType>>;
 };
 export const ArticleParamsForm = (props: Test) => {
-	const [open, setOpen] = useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const formRef = useRef<HTMLFormElement | null>(null);
 
 	useEffect(() => {
-		if (!open) return;
+		if (!isMenuOpen) return;
 
 		function handleOutsideClick(e: MouseEvent) {
 			if (
@@ -38,13 +38,13 @@ export const ArticleParamsForm = (props: Test) => {
 				formRef.current &&
 				!formRef.current.contains(e.target)
 			) {
-				setOpen(false);
+				setIsMenuOpen(false);
 			}
 		}
 
 		function handleEscClick(e: KeyboardEvent) {
 			if (e.key === 'Escape') {
-				setOpen(false);
+				setIsMenuOpen(false);
 			}
 		}
 
@@ -55,21 +55,24 @@ export const ArticleParamsForm = (props: Test) => {
 			document.removeEventListener('keydown', handleEscClick);
 			document.removeEventListener('mousedown', handleOutsideClick);
 		};
-	}, [open, formRef]);
+	}, [isMenuOpen, formRef]);
 
 	const formStyles = clsx({
 		[styles.container]: true,
-		[styles.container_open]: open,
+		[styles.container_open]: isMenuOpen,
 	});
 
 	function handleSubmitForm(e: FormEvent) {
 		props.submitForm(e);
-		setOpen(false);
+		setIsMenuOpen(false);
 	}
 
 	return (
 		<>
-			<ArrowButton handle={() => setOpen((prev) => !prev)} open={open} />
+			<ArrowButton
+				handle={() => setIsMenuOpen((prev) => !prev)}
+				open={isMenuOpen}
+			/>
 			<aside className={formStyles}>
 				<form
 					className={styles.form}
